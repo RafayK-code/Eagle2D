@@ -27,7 +27,7 @@ namespace Eagle
 
 			window.clear();
 			window.draw(rect);
-			window.display();
+			window.display();//
 		}
 	}
 }
