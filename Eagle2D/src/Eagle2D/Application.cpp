@@ -23,7 +23,7 @@ namespace Eagle
 				{
 					window.close();
 				}
-			}
+			} 
 
 			window.clear();
 			window.draw(rect);
