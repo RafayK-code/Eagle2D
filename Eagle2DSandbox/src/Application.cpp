@@ -1,12 +1,18 @@
+#include <Eagle2D.h>
 
-namespace Eagle
+class Sandbox : public Eagle::Application
 {
-	__declspec(dllimport) void Run();
-}
+public:
+	Sandbox()
+	{
+	}
 
-int main()
+	~Sandbox()
+	{
+	}
+};
+
+Eagle::Application* Eagle::CreateApplication()
 {
-	Eagle::Run();
-
-	return 0;
+	return new Sandbox();
 }
