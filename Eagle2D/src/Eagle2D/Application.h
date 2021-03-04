@@ -1,4 +1,5 @@
 #pragma once
+#include "EaglePCH.h"
 #include "Core.h"
 
 namespace Eagle
@@ -11,8 +12,6 @@ namespace Eagle
 
 		void Run();
 
+	private:
 	};
-
-	//TO BE DEFINED IN CLIENT
-	Application* CreateApplication();
 }

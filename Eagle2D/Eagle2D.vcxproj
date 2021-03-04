@@ -90,10 +90,12 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;EAGLE_PLATFORM_WINDOWS;</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);SFML_STATIC;EAGLE_PLATFORM_WINDOWS;EAGLE_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)libs\SFML_32-bit\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)libs\SFML_32-bit\include;$(SolutionDir)Eagle2D\src</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>EaglePCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,10 +158,15 @@
     <ClInclude Include="src\Eagle2D.h" />
     <ClInclude Include="src\Eagle2D\Application.h" />
     <ClInclude Include="src\Eagle2D\Core.h" />
-    <ClInclude Include="src\Eagle2D\EntryPoint.h" />
+    <ClInclude Include="src\Eagle2D\Graphics\RenderWindow.h" />
+    <ClInclude Include="src\EaglePCH.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Eagle2D\Application.cpp" />
+    <ClCompile Include="src\Eagle2D\Graphics\RenderWindow.cpp" />
+    <ClCompile Include="src\EaglePCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
