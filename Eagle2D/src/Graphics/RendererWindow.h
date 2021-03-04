@@ -1,11 +1,12 @@
 #pragma once
 #include "EaglePCH.h"
-#include "Eagle2D/Core.h"
+#include "Core/Core.h"
 #include "SFML/Graphics.hpp"
+#include "Core/Event.h"
 
 namespace Eagle
 {
-	struct WindowProps
+	struct EAGLE_API WindowProps
 	{
 		std::string title;
 		unsigned int width;
@@ -18,16 +19,23 @@ namespace Eagle
 		{}
 	};
 
-	class RenderWindow
+	class EAGLE_API RendererWindow
 	{
 	public:
-		RenderWindow();
-		~RenderWindow();
-
 		void Init(const WindowProps& props);
 		void Shutdown();
 
 		void OnUpdate();
+
+		bool IsOpen() const;
+
+		void SetFrameRate(int frameRate);
+		int GetFrameRate() const;
+
+		void SetVSync(bool enabled);
+		bool IsVSync() const;
+
+		bool PollEvent(Event& event);
 
 	private:
 		sf::RenderWindow m_RenderWindow;
@@ -37,8 +45,9 @@ namespace Eagle
 			std::string title;
 			unsigned int width, height;
 			bool VSync;
+			int frameRate;
 		};
 
-		WindowProps m_Data;
+		WindowData m_Data;
 	};
 }

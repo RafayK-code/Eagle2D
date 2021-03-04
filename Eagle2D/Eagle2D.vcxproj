@@ -155,15 +155,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\Keyboard.h" />
     <ClInclude Include="src\Eagle2D.h" />
-    <ClInclude Include="src\Eagle2D\Application.h" />
-    <ClInclude Include="src\Eagle2D\Core.h" />
-    <ClInclude Include="src\Eagle2D\Graphics\RenderWindow.h" />
+    <ClInclude Include="src\Core\Core.h" />
+    <ClInclude Include="src\Core\Event.h" />
+    <ClInclude Include="src\Graphics\RendererWindow.h" />
     <ClInclude Include="src\EaglePCH.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Eagle2D\Application.cpp" />
-    <ClCompile Include="src\Eagle2D\Graphics\RenderWindow.cpp" />
+    <ClCompile Include="src\Graphics\RendererWindow.cpp" />
     <ClCompile Include="src\EaglePCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>

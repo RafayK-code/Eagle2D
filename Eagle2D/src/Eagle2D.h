@@ -3,4 +3,5 @@
 //For use in applications
 #include "EaglePCH.h"
 
-#include "Eagle2D/Application.h"
+#include "Graphics/RendererWindow.h"
+#include "Core/Event.h"
