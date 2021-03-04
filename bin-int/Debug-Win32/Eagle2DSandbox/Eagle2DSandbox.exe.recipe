@@ -2,9 +2,6 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\dev\Eagle2D\bin\Debug-Win32\Eagle2D\Eagle2D.dll</FullPath>
-    </ProjectOutput>
-    <ProjectOutput>
       <FullPath>C:\dev\Eagle2D\bin\Debug-Win32\Eagle2DSandbox\Eagle2DSandbox.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
