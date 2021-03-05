@@ -14,7 +14,8 @@ namespace Eagle
 		~EventHandler();
 
 		void HandleEvents(Window* window);
-		void CustomEvents(SDL_Event event);
-		void CustomEvents(SDL_Event event, Window* window);
+
+		//Defined in client
+		void EventScript(SDL_Event event);
 	};
 }

@@ -1,7 +1,10 @@
 #include "Window.h"
+#include <SDL_image.h>
 
 namespace Eagle
 {
+	SDL_Renderer* Window::m_Renderer;
+
 	Window::Window()
 	{
 	}
@@ -23,6 +26,7 @@ namespace Eagle
 		m_FrameRate = 0; m_VSync = false; m_FrameStart = SDL_GetTicks();
 
 		SDL_Init(SDL_INIT_VIDEO);
+		IMG_Init(IMG_INIT_PNG);
 
 		SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
