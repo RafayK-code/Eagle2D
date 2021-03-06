@@ -1,10 +1,8 @@
-#include <iostream>
+#include "egpch.h"
+#include "Eagle2D.h"
 #include <SDL.h>
-#include "Eagle2D/Graphics/Window.h"
-#include "EventHandler.h"
-#include "Graphics/AssetManager.h"
 #include <SDL_image.h>
-#include "ECS/ECS.h"
+
 
 #include "ECS/Transform.h"
 #include "ECS/Sprite.h"
@@ -73,6 +71,8 @@ void Eagle::EventHandler::EventScript(SDL_Event event)
 
 int main(int agrc, char** argv)
 {
+	Eagle::Log::Init();
+
 	window.Init("App", 1280, 720, SDL_WINDOW_OPENGL, SDL_RENDERER_ACCELERATED);
 	window.SetFrameRate(60);
 

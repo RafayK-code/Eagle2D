@@ -1,3 +1,4 @@
+#include "egpch.h"
 #include "RenderSystem.h"
 #include <SDL.h>
 #include "Graphics/AssetManager.h"

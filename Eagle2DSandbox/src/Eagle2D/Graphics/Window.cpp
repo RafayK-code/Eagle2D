@@ -1,3 +1,4 @@
+#include "egpch.h"
 #include "Window.h"
 #include <SDL_image.h>
 
@@ -25,7 +26,7 @@ namespace Eagle
 	{
 		m_FrameRate = 0; m_VSync = false; m_FrameStart = SDL_GetTicks();
 
-		SDL_Init(SDL_INIT_VIDEO);
+		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS);
 		IMG_Init(IMG_INIT_PNG);
 
 		SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");

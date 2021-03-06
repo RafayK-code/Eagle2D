@@ -1,3 +1,4 @@
+#include "egpch.h"
 #include "AssetManager.h"
 #include "Window.h"
 #include <SDL_image.h>
@@ -15,6 +16,12 @@ namespace Eagle
 	void AssetManager::AddTexture(const char* file, std::string name)
 	{
 		SDL_Surface* temp = IMG_Load(file);
+
+		if (temp == nullptr)
+		{
+			EG_WARN(file, " was not found. Error : Image could not be loaded.");
+		}
+
 		SDL_Texture* tex = SDL_CreateTextureFromSurface(Window::m_Renderer, temp);
 		m_Textures.insert({ name, tex });
 

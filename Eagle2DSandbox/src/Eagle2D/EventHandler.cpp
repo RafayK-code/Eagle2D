@@ -1,3 +1,4 @@
+#include "egpch.h"
 #include "EventHandler.h"
 #include "Graphics/Window.h"
 

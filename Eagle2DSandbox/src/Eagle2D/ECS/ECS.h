@@ -1,14 +1,6 @@
 #pragma once
 //includes
-#include <iostream>
-#include <bitset>
-#include <array>
-#include <vector>
-#include <queue>
-#include <memory>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
+#include "egpch.h"
 
 namespace Eagle
 {
