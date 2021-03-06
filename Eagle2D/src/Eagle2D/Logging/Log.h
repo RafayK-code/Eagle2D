@@ -1,12 +1,10 @@
 #pragma once
-
-#ifdef EAGLE_BUILD_DLL
-#define EAGLE_API __declspec(dllexport)
-#else
-#define EAGLE_API __declspec(dllimport)
-#endif
+#include "Core.h"
 
 #include "Logger.h"
+
+#pragma warning(push)
+#pragma warning(disable:4251)
 
 namespace Eagle
 {
@@ -23,6 +21,8 @@ namespace Eagle
 		static std::shared_ptr<Logger> m_ClientLogger;
 	};
 }
+
+#pragma warning(push)
 
 #define EG_CORE_FATAL(...)  ::Eagle::Log::GetCoreLogger()->Fatal(__VA_ARGS__)
 #define EG_CORE_ERROR(...)  ::Eagle::Log::GetCoreLogger()->Error(__VA_ARGS__)

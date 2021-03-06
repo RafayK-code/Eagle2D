@@ -6,6 +6,9 @@
 
 #include "Window.h"
 
+#pragma warning(push)
+#pragma warning(disable:4251)
+
 namespace Eagle
 {
 	class EAGLE_API AssetManager
@@ -32,3 +35,5 @@ namespace Eagle
 		Window* m_Window;
 	};
 }
+
+#pragma warning(pop)

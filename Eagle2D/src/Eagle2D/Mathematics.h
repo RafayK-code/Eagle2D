@@ -1,5 +1,5 @@
 #pragma once
-#include <Logging/Log.h>
+#include <Core.h>
 #include <vector>
 #include <cmath>
 
@@ -85,7 +85,7 @@ namespace Eagle
 		}
 	};
 
-	struct Rect
+	struct EAGLE_API Rect
 	{
 		Vector2f position;
 		Vector2f scale;

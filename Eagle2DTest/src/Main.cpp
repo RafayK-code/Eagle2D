@@ -20,7 +20,7 @@ Eagle::ECS::EntityID goblin;
 std::shared_ptr<Eagle::RenderSystem> renderSystem;
 std::shared_ptr<Eagle::PhysicsSystem> physicsSystem;
 
-void Eagle::EventHandler::EventScript(SDL_Event event)
+void Eagle::EventScript(SDL_Event event)
 {
 	Transform& t = manager.GetComponent<Transform>(goblin);
 	RigidBody& rb = manager.GetComponent<RigidBody>(goblin);
@@ -122,12 +122,7 @@ int main(int agrc, char** argv)
 
 	while (window.IsOpen())
 	{
-		SDL_Event event;
-		Uint32 timeout = SDL_GetTicks() + 10;
-		while (SDL_PollEvent(&event) && !SDL_TICKS_PASSED(SDL_GetTicks(), timeout))
-		{
-			handler.EventScript(event);
-		}
+		handler.HandleEvents();
 
 		window.Clear();
 		physicsSystem->Update();
@@ -137,8 +132,6 @@ int main(int agrc, char** argv)
 		SDL_RenderDrawRect(window.m_Renderer, &rect);
 		window.Update();
 	}
-
-	manager.DestroyEntity(goblin);
 
 	return 0;
 }

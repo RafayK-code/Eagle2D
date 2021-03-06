@@ -2,6 +2,9 @@
 //includes
 #include "egpch.h"
 
+#pragma warning(push)
+#pragma warning(disable:4251)
+
 namespace Eagle
 {
 	namespace ECS
@@ -39,7 +42,7 @@ namespace Eagle
 		};
 
 		//Entity class
-		class EAGLE_API Entity
+		class Entity
 		{
 		public:
 			//function to add a component to this entity (component passed is not a reference meaning it can be passed in via initializer list)
@@ -86,7 +89,7 @@ namespace Eagle
 		//Entities will only be managed by the manager class. The entity ID is a key used to access a specific entity
 		//Systems will be added to a map of signatures and systems
 		//The signature will determine what entities the system will iterate through and cares about
-		class EAGLE_API Manager
+		class Manager
 		{
 		public:
 			//function that gets called on startup
@@ -101,14 +104,6 @@ namespace Eagle
 				EG_CORE_INFO("ECS Manager initialized.");
 			}
 
-			~Manager()
-			{
-				for (auto const& pair : m_Entities)
-				{
-					delete pair.second;
-				}
-			}
-
 			//This function returns an ID to the user
 			EntityID CreateEntity()
 			{
@@ -118,8 +113,8 @@ namespace Eagle
 				m_AvailableEntities.pop();
 
 				//create an instance of an entity and insert it into our map
-				Entity* entity = new Entity;
-				m_Entities.insert({ id, entity });
+				std::unique_ptr<Entity> entity = std::make_unique<Entity>();
+				m_Entities.insert({ id, std::move(entity) });
 
 				//return the ID to the user
 				return id;
@@ -129,7 +124,6 @@ namespace Eagle
 			void DestroyEntity(EntityID entity)
 			{
 				//erase the entity from our map
-				Entity* e = m_Entities[entity];
 				m_Entities.erase(entity);
 
 				//go through each system and remove the entity
@@ -140,10 +134,6 @@ namespace Eagle
 
 				//push the ID back into the queue
 				m_AvailableEntities.push(entity);
-
-				delete e;
-
-				EG_CORE_WARN("Entity deleted.");
 			}
 
 			//Adds a type of component to an entity
@@ -205,7 +195,9 @@ namespace Eagle
 			//queue of available entites (FIFO)
 			std::queue<EntityID> m_AvailableEntities;
 			//map of entity IDs to unique pointers of entites. Using this map, entities can be oeprated on givin an entity key from user
-			std::unordered_map<EntityID, Entity*> m_Entities;
+			std::unordered_map<EntityID, std::unique_ptr<Entity>> m_Entities;
 		};
 	}
 }
+
+#pragma warning(pop)

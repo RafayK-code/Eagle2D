@@ -1,4 +1,5 @@
 #pragma once
+#include "Core.h"
 #include "ECS.h"
 #include <SDL.h>
 #include <string>

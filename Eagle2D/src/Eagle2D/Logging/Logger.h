@@ -3,6 +3,9 @@
 #include <iostream>
 #include <windows.h>
 
+#pragma warning(push)
+#pragma warning(disable:4251)
+
 namespace Eagle
 {
 	class EAGLE_API Logger
@@ -70,3 +73,5 @@ namespace Eagle
 		std::string m_Name;
 	};
 }
+
+#pragma warning(pop)

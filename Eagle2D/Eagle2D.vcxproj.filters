@@ -18,9 +18,6 @@
     <ClCompile Include="src\Eagle2D\Graphics\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Eagle2D\EventHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Eagle2D\Graphics\AssetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Eagle2D\Eagle2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Eagle2D\Core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
