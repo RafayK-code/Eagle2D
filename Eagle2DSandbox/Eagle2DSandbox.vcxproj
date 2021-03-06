@@ -157,6 +157,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Eagle2D\ECS\PhysicsSystem.cpp" />
+    <ClCompile Include="src\Eagle2D\ECS\RenderSystem.cpp" />
     <ClCompile Include="src\Eagle2D\EventHandler.cpp" />
     <ClCompile Include="src\Eagle2D\Graphics\AssetManager.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -167,6 +169,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Eagle2D\ECS\ECS.h" />
+    <ClInclude Include="src\Eagle2D\ECS\PhysicsSystem.h" />
+    <ClInclude Include="src\Eagle2D\ECS\RenderSystem.h" />
     <ClInclude Include="src\Eagle2D\ECS\RigidBody.h" />
     <ClInclude Include="src\Eagle2D\ECS\Sprite.h" />
     <ClInclude Include="src\Eagle2D\ECS\Transform.h" />

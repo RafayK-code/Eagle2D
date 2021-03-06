@@ -39,6 +39,7 @@ namespace Eagle
 
 	void Window::Clear()
 	{
+		SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 		SDL_RenderClear(m_Renderer);
 	}
 

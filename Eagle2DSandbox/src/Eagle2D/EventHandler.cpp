@@ -14,7 +14,8 @@ namespace Eagle
 	void EventHandler::HandleEvents(Window* window)
 	{
 		SDL_Event event;
-		if (SDL_PollEvent(&event))
+		Uint32 timeout = SDL_GetTicks() + 10;
+		while (SDL_PollEvent(&event) && !SDL_TICKS_PASSED(SDL_GetTicks(), timeout))
 		{
 			EventScript(event);
 		}

@@ -6,6 +6,11 @@
 
 namespace Eagle
 {
+	struct Animation
+	{
+
+	};
+
 	class AssetManager
 	{
 	public:

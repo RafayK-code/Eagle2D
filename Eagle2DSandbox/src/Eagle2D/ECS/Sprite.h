@@ -3,26 +3,34 @@
 #include <SDL.h>
 #include <string>
 
-//Pre defined component.
-//Holds a name associated with a texture in the AssetManager
-//Holds the location of texture being used, size of the sprite (associats with Transform::position by default)
-//Holds an enum of how the sprite should be flipped
-struct Sprite : public Eagle::ECS::Component
+namespace Eagle
 {
-	Sprite(std::string id, SDL_Rect src)
-		: id(id), src(src)
+	//Pre defined component.
+	//Holds a name associated with a texture in the AssetManager
+	//Holds the location of texture being used, size of the sprite (associats with Transform::position by default)
+	//Holds an enum of how the sprite should be flipped
+	struct Sprite : public ECS::Component
 	{
-	}
+		Sprite(std::string id, SDL_Rect src)
+			: id(id), src(src), flip(SDL_FLIP_NONE), dst(SDL_Rect{ 0,0,0,0 })
+		{
+		}
 
-	Sprite(std::string id, SDL_Rect src, SDL_RendererFlip flip)
-		: id(id), src(src), flip(flip)
-	{
-	}
+		Sprite(std::string id, SDL_Rect src, SDL_RendererFlip flip)
+			: id(id), src(src), flip(flip), dst(SDL_Rect{ 0,0,0,0 })
+		{
+		}
 
-	std::string id;
+		Sprite(std::string id, SDL_Rect src, SDL_Rect dst, SDL_RendererFlip flip)
+			: id(id), src(src), dst(dst), flip(flip)
+		{
+		}
 
-	SDL_Rect src;
-	SDL_Rect dst;
+		std::string id;
 
-	SDL_RendererFlip flip;
-};
+		SDL_Rect src;
+		SDL_Rect dst;
+
+		SDL_RendererFlip flip;
+	};
+}

@@ -8,56 +8,124 @@
 
 #include "ECS/Transform.h"
 #include "ECS/Sprite.h"
+#include "ECS/RigidBody.h"
+
+#include "ECS/RenderSystem.h"
+#include "ECS/PhysicsSystem.h"
 
 Eagle::Window window;
 Eagle::ECS::Manager manager;
+Eagle::AssetManager aManager;
+
+Eagle::ECS::EntityID goblin;
+
+std::shared_ptr<Eagle::RenderSystem> renderSystem;
+std::shared_ptr<Eagle::PhysicsSystem> physicsSystem;
 
 void Eagle::EventHandler::EventScript(SDL_Event event)
 {
+	Transform& t = manager.GetComponent<Transform>(goblin);
+	RigidBody& rb = manager.GetComponent<RigidBody>(goblin);
+
 	if (event.type == SDL_QUIT)
 	{
 		window.Close();
 	}
 
-	switch (event.key.keysym.sym)
+	if (event.type == SDL_KEYDOWN)
 	{
-	case SDLK_RETURN:
-		std::cout << "Enter Key Pressed" << std::endl;
-		break;
+		switch (event.key.keysym.sym)
+		{
+		case SDLK_w:
+			rb.velocity.y = -3.0f;
+			break;
+		case SDLK_s:
+			rb.velocity.y = 3.0f;
+			break;
+		case SDLK_a:
+			rb.velocity.x = -3.0f;
+			break;
+		case SDLK_d:
+			rb.velocity.x = 3.0f;
+			break;
+		}
+	}
+
+	if (event.type == SDL_KEYUP)
+	{
+		switch (event.key.keysym.sym)
+		{
+		case SDLK_w:
+			rb.velocity.y = 0;
+			break;
+		case SDLK_s:
+			rb.velocity.y = 0;
+			break;
+		case SDLK_a:
+			rb.velocity.x = 0;
+			break;
+		case SDLK_d:
+			rb.velocity.x = 0;
+			break;
+		}
 	}
 }
 
 int main(int agrc, char** argv)
 {
 	window.Init("App", 1280, 720, SDL_WINDOW_OPENGL, SDL_RENDERER_ACCELERATED);
-	window.SetFrameRate(240);
+	window.SetFrameRate(60);
 
 	Eagle::EventHandler handler;
-	Eagle::AssetManager aManger;
 
-	aManger.AddTexture("assets/goblin_king.png", "goblin");
+	aManager.AddTexture("assets/goblin_king.png", "goblin");
 	SDL_Rect rect = { 0, 0, 64, 64 };
 
 	manager.Init();
 
-	Eagle::ECS::EntityID goblin = manager.CreateEntity();
-	manager.AddComponent<Transform>(goblin, Eagle::Rect(0.0f, 0.0f, 64.0f, 64.0f), 0.0f);
-	manager.AddComponent<Sprite>(goblin, "goblin", SDL_Rect{ 0, 0, 13, 25 });
+	{
+		Eagle::ECS::Signature signature;
+		signature.set(manager.GetComponentType<Eagle::Transform>());
+		signature.set(manager.GetComponentType<Eagle::RigidBody>());
 
-	Sprite& sprite = manager.GetComponent<Sprite>(goblin);
-	Transform& trans = manager.GetComponent<Transform>(goblin);
+		physicsSystem = manager.AddSystem<Eagle::PhysicsSystem>(signature);
+	}
 
-	sprite.dst.x = static_cast<int>(trans.transform.position.x);
-	sprite.dst.y = static_cast<int>(trans.transform.position.y);
-	sprite.dst.w = static_cast<int>(trans.transform.scale.x);
-	sprite.dst.h = static_cast<int>(trans.transform.scale.y);
+	{
+		Eagle::ECS::Signature signature;
+		signature.set(manager.GetComponentType<Eagle::Transform>());
+		signature.set(manager.GetComponentType<Eagle::Sprite>());
+
+		renderSystem = manager.AddSystem<Eagle::RenderSystem>(signature);
+	}
+
+	Eagle::ECS::EntityID wall = manager.CreateEntity();
+	manager.AddComponent<Eagle::Transform>(wall, Eagle::Rect(800.0f, 100.0f, 20.0f, 300.0f), 0.0f);
+	manager.AddComponent<Eagle::Sprite>(wall, "goblin", SDL_Rect{ 0, 0, 13, 25 });
+	manager.AddComponent<Eagle::RigidBody>(wall, Eagle::Rect(0.0f, 0.0f, 20.0f, 280.0f));
+
+	goblin = manager.CreateEntity();
+	manager.AddComponent<Eagle::Transform>(goblin, Eagle::Rect(0.0f, 0.0f, 64.0f, 64.0f), 0.0f);
+	manager.AddComponent<Eagle::Sprite>(goblin, "goblin", SDL_Rect{ 0, 0, 13, 25 });
+	manager.AddComponent<Eagle::RigidBody>(goblin, Eagle::Rect(20.0f, 38.0f, 34.0f, 24.0f), Eagle::Vector2f(), Eagle::Vector2f());
+
+	Eagle::Sprite& sprite = manager.GetComponent<Eagle::Sprite>(goblin);
+	Eagle::Transform& trans = manager.GetComponent<Eagle::Transform>(goblin);
+	Eagle::RigidBody& rb = manager.GetComponent<Eagle::RigidBody>(goblin);
+
+	renderSystem->Init(&aManager);
+	physicsSystem->Init();
 
 	while (window.IsOpen())
 	{
 		handler.HandleEvents(&window);
 
 		window.Clear();
-		SDL_RenderCopy(Eagle::Window::m_Renderer, aManger.GetTexture(sprite.id), &sprite.src, &sprite.dst);
+		physicsSystem->Update();
+		renderSystem->Update();
+		SDL_Rect rect = { rb.hitbox.position.x, rb.hitbox.position.y, rb.hitbox.scale.x, rb.hitbox.scale.y, };
+		SDL_SetRenderDrawColor(Eagle::Window::m_Renderer, 255, 0, 255, 255);
+		SDL_RenderDrawRect(Eagle::Window::m_Renderer, &rect);
 		window.Update();
 	}
 

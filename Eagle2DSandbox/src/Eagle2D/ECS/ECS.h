@@ -183,7 +183,7 @@ namespace Eagle
 			std::shared_ptr<T> AddSystem(Signature signature)
 			{
 				//create a system of type T and initialize it
-				std::shared_ptr<T> system = std::make_shared<T>();
+				std::shared_ptr<T> system = std::make_shared<T>(this);
 				//insert this into our map along with the signature
 				m_Systems.insert({ signature, system });
 

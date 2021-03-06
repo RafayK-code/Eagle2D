@@ -67,6 +67,16 @@ namespace Eagle
 			return *this;
 		}
 
+		bool operator!=(Vector2f const& vec)
+		{
+			if (this->x != vec.x || this->y != vec.y)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
 		void Zero()
 		{
 			x = 0.0f;
