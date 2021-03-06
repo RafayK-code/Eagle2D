@@ -97,6 +97,8 @@ namespace Eagle
 				{
 					m_AvailableEntities.push(entity);
 				}
+
+				EG_INFO("ECS Manager initialized.");
 			}
 
 			//This function returns an ID to the user

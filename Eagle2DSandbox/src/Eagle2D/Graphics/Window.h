@@ -27,7 +27,7 @@ namespace Eagle
 
 		void FullScreen(bool enabled);
 
-		static SDL_Renderer* m_Renderer;
+		SDL_Renderer* m_Renderer;
 
 	private:
 		SDL_Window* m_Window;

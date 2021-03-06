@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <string>
 
+#include "Window.h"
+
 namespace Eagle
 {
 	class AssetManager
@@ -11,6 +13,8 @@ namespace Eagle
 	public:
 		AssetManager();
 		~AssetManager();
+
+		void Init(Window* window);
 
 		void AddTexture(const char* file, std::string name);
 		void DeleteTexture(std::string name);
@@ -24,5 +28,7 @@ namespace Eagle
 	private:
 		std::unordered_map<std::string, SDL_Texture*> m_Textures;
 		std::unordered_map<std::string, TTF_Font*> m_Fonts;
+
+		Window* m_Window;
 	};
 }

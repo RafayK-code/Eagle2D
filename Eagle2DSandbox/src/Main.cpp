@@ -76,6 +76,8 @@ int main(int agrc, char** argv)
 	window.Init("App", 1280, 720, SDL_WINDOW_OPENGL, SDL_RENDERER_ACCELERATED);
 	window.SetFrameRate(60);
 
+	aManager.Init(&window);
+
 	Eagle::EventHandler handler;
 
 	aManager.AddTexture("assets/goblin_king.png", "goblin");
@@ -124,8 +126,8 @@ int main(int agrc, char** argv)
 		physicsSystem->Update();
 		renderSystem->Update();
 		SDL_Rect rect = { rb.hitbox.position.x, rb.hitbox.position.y, rb.hitbox.scale.x, rb.hitbox.scale.y, };
-		SDL_SetRenderDrawColor(Eagle::Window::m_Renderer, 255, 0, 255, 255);
-		SDL_RenderDrawRect(Eagle::Window::m_Renderer, &rect);
+		SDL_SetRenderDrawColor(window.m_Renderer, 255, 0, 255, 255);
+		SDL_RenderDrawRect(window.m_Renderer, &rect);
 		window.Update();
 	}
 

@@ -10,25 +10,27 @@
 namespace Eagle
 {
 	RenderSystem::RenderSystem(ECS::Manager* man)
-		: manager(man)
+		: m_Manager(man)
 	{
+		EG_INFO("Render system created.");
 	}
 
 	RenderSystem::~RenderSystem()
 	{
+		EG_WARN("Render system destroyed.");
 	}
 
 	void RenderSystem::Init(AssetManager* aMan)
 	{
-		aManager = aMan;
+		m_aManager = aMan;
 	}
 
 	void RenderSystem::Update()
 	{
 		for (const ECS::EntityID entity : m_Entities)
 		{
-			Sprite& sprite = manager->GetComponent<Sprite>(entity);
-			Transform& transform = manager->GetComponent<Transform>(entity);
+			Sprite& sprite = m_Manager->GetComponent<Sprite>(entity);
+			Transform& transform = m_Manager->GetComponent<Transform>(entity);
 
 			sprite.dst.x = static_cast<int>(transform.transform.position.x);
 			sprite.dst.y = static_cast<int>(transform.transform.position.y);
@@ -39,7 +41,7 @@ namespace Eagle
 			point.x = static_cast<int>(transform.origin.x);
 			point.y = static_cast<int>(transform.origin.y);
 
-			aManager->DrawTexture(sprite.id, &sprite.src, &sprite.dst, transform.rotation, &point, sprite.flip);
+			m_aManager->DrawTexture(sprite.id, &sprite.src, &sprite.dst, transform.rotation, &point, sprite.flip);
 		}
 	}
 }

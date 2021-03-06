@@ -4,8 +4,6 @@
 
 namespace Eagle
 {
-	SDL_Renderer* Window::m_Renderer;
-
 	Window::Window()
 	{
 	}
@@ -20,22 +18,45 @@ namespace Eagle
 		SDL_DestroyRenderer(m_Renderer);
 		SDL_DestroyWindow(m_Window);
 		SDL_Quit();
+
+		EG_WARN("Window and Renderer Destroyed.");
+		EG_TRACE("Thank you for using Eagle2D. Goodbye!");
 	}
 
 	void Window::Init(const char* title, unsigned int width, unsigned int height, Uint32 windowFlags, Uint32 rendererFlags)
 	{
 		m_FrameRate = 0; m_VSync = false; m_FrameStart = SDL_GetTicks();
 
-		SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS);
-		IMG_Init(IMG_INIT_PNG);
+		EG_ASSERT(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS) + 1, "Could not initialize SDL.");
+
+		EG_INFO("SDL initialized...");
+
+		EG_ASSERT(IMG_Init(IMG_INIT_PNG), "Coult not initialize SDL_image.");
+
+		EG_INFO("SDL_image initialized...");
 
 		SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
 		m_Window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, windowFlags);
+		if (m_Window == nullptr)
+		{
+			EG_ASSERT(false, "Could not create Window.");
+		}
+
+		EG_INFO("Window created...");
+
 		m_Renderer = SDL_CreateRenderer(m_Window, -1, rendererFlags);
+		if (m_Renderer == nullptr)
+		{
+			EG_ASSERT(false, "Could not create Renderer.");
+		}
+
+		EG_INFO("Renderer created...");
+
 		SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 
 		m_IsRunning = true;
+		EG_INFO("Window & Renderer startup successful.");
 	}
 
 	void Window::Clear()

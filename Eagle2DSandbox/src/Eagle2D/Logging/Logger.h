@@ -17,7 +17,7 @@ namespace Eagle
 		void Trace(const T& msg, Args&&... m_Args)
 		{
 			SetConsoleTextAttribute(m_Console, 15);
-			std::cout << msg;
+			std::cout << "TRACE : " << msg;
 			((std::cout << std::forward<Args>(m_Args)), ...);
 			std::cout << std::endl;
 		}
@@ -26,7 +26,7 @@ namespace Eagle
 		void Info(const T& msg, Args&&... m_Args)
 		{
 			SetConsoleTextAttribute(m_Console, 2);
-			std::cout << msg;
+			std::cout << "INFO : " << msg;
 			((std::cout << std::forward<Args>(m_Args)), ...);
 			std::cout << std::endl;
 		}
@@ -35,7 +35,7 @@ namespace Eagle
 		void Warn(const T& msg, Args&&... m_Args)
 		{
 			SetConsoleTextAttribute(m_Console, 14);
-			std::cout << msg;
+			std::cout << "WARN : " << msg;
 			((std::cout << std::forward<Args>(m_Args)), ...);
 			std::cout << std::endl;
 		}
@@ -44,7 +44,7 @@ namespace Eagle
 		void Error(const T& msg, Args&&... m_Args)
 		{
 			SetConsoleTextAttribute(m_Console, FOREGROUND_RED | FOREGROUND_GREEN);
-			std::cout << msg;
+			std::cout << "ERROR : " << msg;
 			((std::cout << std::forward<Args>(m_Args)), ...);
 			std::cout << std::endl;
 		}
@@ -53,7 +53,7 @@ namespace Eagle
 		void Fatal(const T& msg, Args&&... m_Args)
 		{
 			SetConsoleTextAttribute(m_Console, 4);
-			std::cout << msg;
+			std::cout << "FATAL : " << msg;
 			((std::cout << std::forward<Args>(m_Args)), ...);
 			std::cout << std::endl;
 		}
