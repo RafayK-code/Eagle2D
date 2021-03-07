@@ -33,6 +33,9 @@
     <ClCompile Include="src\Eagle2D\egpch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Eagle2D\Graphics\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Eagle2D\Graphics\Window.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Eagle2D\Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Eagle2D\Graphics\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

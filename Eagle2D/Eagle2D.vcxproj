@@ -183,6 +183,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">egpch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\Eagle2D\Graphics\AssetManager.cpp" />
+    <ClCompile Include="src\Eagle2D\Graphics\Light.cpp" />
     <ClCompile Include="src\Eagle2D\Logging\Log.cpp" />
     <ClCompile Include="src\Eagle2D\Graphics\Window.cpp" />
   </ItemGroup>
@@ -198,6 +199,7 @@
     <ClInclude Include="src\Eagle2D\egpch.h" />
     <ClInclude Include="src\Eagle2D\EventHandler.h" />
     <ClInclude Include="src\Eagle2D\Graphics\AssetManager.h" />
+    <ClInclude Include="src\Eagle2D\Graphics\Light.h" />
     <ClInclude Include="src\Eagle2D\Graphics\Window.h" />
     <ClInclude Include="src\Eagle2D\Logging\Logger.h" />
     <ClInclude Include="src\Eagle2D\Mathematics.h" />
