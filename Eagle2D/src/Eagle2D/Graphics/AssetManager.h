@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Window.h"
+#include "Light.h"
 
 #pragma warning(push)
 #pragma warning(disable:4251)
@@ -18,6 +19,7 @@ namespace Eagle
 		~AssetManager();
 
 		void Init(Window* window);
+		void Update();
 
 		void AddTexture(const char* file, std::string name);
 		void DeleteTexture(std::string name);
@@ -28,9 +30,16 @@ namespace Eagle
 		void DeleteFont(std::string name);
 		TTF_Font* GetFont(std::string name);
 
+		void CreateLight(std::string name, SDL_Colour tint);
+		void DeleteLight(std::string name);
+		void DrawLight(std::string name, std::string texture, Vector2f origin, float brightness);
+		std::shared_ptr<Light> GetLight(std::string name);
+
 	private:
 		std::unordered_map<std::string, SDL_Texture*> m_Textures;
 		std::unordered_map<std::string, TTF_Font*> m_Fonts;
+
+		std::unordered_map<std::string, std::shared_ptr<Light>> m_Lights;
 
 		Window* m_Window;
 	};

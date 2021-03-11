@@ -2,8 +2,6 @@
 #include "Eagle2D.h"
 #include <SDL.h>
 #include <SDL_image.h>
-#include <gl/gl.h>
-
 
 #include "ECS/Transform.h"
 #include "ECS/Sprite.h"
@@ -77,14 +75,18 @@ int main(int agrc, char** argv)
 	EG_ERROR("Welcome to test");
 
 	window.Init("App", 1280, 720, SDL_WINDOW_OPENGL, SDL_RENDERER_ACCELERATED);
-	window.SetFrameRate(240);
+	window.SetFrameRate(60);
 
 	aManager.Init(&window);
 
 	Eagle::EventHandler handler;
 
 	aManager.AddTexture("assets/goblin_king.png", "goblin");
-	aManager.AddTexture("assets/light.png", "shadow");
+	aManager.AddTexture("assets/light.png", "light");
+	aManager.AddTexture("assets/Full_Room_1.png", "room");
+
+	aManager.CreateLight("shadow1", SDL_Color{255, 255, 255, 255});
+	aManager.CreateLight("shadow2", SDL_Color{ 255, 255, 255, 255 });
 	SDL_Rect rect = { 0, 0, 64, 64 };
 
 	manager.Init();
@@ -124,39 +126,48 @@ int main(int agrc, char** argv)
 	renderSystem->Init(&aManager);
 	physicsSystem->Init();
 
-	SDL_SetTextureBlendMode(aManager.GetTexture("shadow"), SDL_BLENDMODE_ADD);
+	SDL_SetTextureBlendMode(aManager.GetTexture("light"), SDL_BLENDMODE_ADD);
 
-	SDL_Texture* rend_shadow = SDL_CreateTexture(window.m_Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
-	SDL_SetTextureBlendMode(rend_shadow, SDL_BLENDMODE_MOD);
+	//SDL_Texture* rend_shadow = SDL_CreateTexture(window.m_Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
+	//SDL_SetTextureBlendMode(rend_shadow, SDL_BLENDMODE_MOD);
+
+	//SDL_Texture* rend_shadow2 = SDL_CreateTexture(window.m_Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
+	//SDL_SetTextureBlendMode(rend_shadow2, SDL_BLENDMODE_MOD);
+
+	SDL_SetRenderDrawBlendMode(window.m_Renderer, SDL_BLENDMODE_BLEND);
+
+	SDL_Texture* backgroundLayer = SDL_CreateTexture(window.m_Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
+	SDL_Texture* lightLayer = SDL_CreateTexture(window.m_Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
+	SDL_Texture* resultLayer = SDL_CreateTexture(window.m_Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
+
+	SDL_SetTextureBlendMode(lightLayer, SDL_BLENDMODE_MOD);
 
 	while (window.IsOpen())
 	{
-		//window.Clear();
 		physicsSystem->Update();
-		//renderSystem->Update();
-		//SDL_Rect rect = { rb.hitbox.position.x, rb.hitbox.position.y, rb.hitbox.scale.x, rb.hitbox.scale.y, };
-		//SDL_SetRenderDrawColor(window.m_Renderer, 255, 0, 255, 255);
-		//SDL_RenderDrawRect(window.m_Renderer, &rect);
-		//SDL_Rect rect2 = { 0, 0, 1280, 720 };
-		//SDL_Rect src = { 0, 0, 64, 64 };
-		//SDL_RenderCopy(window.m_Renderer, aManager.GetTexture("shadow"), nullptr, &rect2)
-
-		//SDL_SetRenderDrawColor(window.m_Renderer, 0, 0, 0, 255);
-		SDL_SetRenderDrawColor(window.m_Renderer, 0, 0, 0, 255);
-
-		SDL_Rect light = { trans.transform.position.x - 200, trans.transform.position.y - 200, 400, 400 };
-		SDL_Rect player = { trans.transform.position.x, trans.transform.position.y, 64, 64 };
-		SDL_Rect wall = { 800, 100, 20, 300 };
-		SDL_SetRenderTarget(window.m_Renderer, rend_shadow);
-		SDL_RenderClear(window.m_Renderer);
-		SDL_RenderCopy(window.m_Renderer, aManager.GetTexture("shadow"), nullptr, &light);
-
 		handler.HandleEvents();
+
+		//METHOD 3 OF LIGHTS
+		SDL_SetRenderTarget(window.m_Renderer, lightLayer);
+		SDL_SetRenderDrawColor(window.m_Renderer, 0, 0, 0, 255);
+		SDL_RenderClear(window.m_Renderer);
+
+		SDL_RenderFillRect(window.m_Renderer, nullptr);
+
+		SDL_Rect spot1 = { trans.transform.position.x - 64, trans.transform.position.y - 64, 500, 500 };
+		SDL_Rect spot2 = { 400, 400, 100, 100 };
+
+		SDL_RenderCopy(window.m_Renderer, aManager.GetTexture("light"), nullptr, &spot1);
+		SDL_RenderCopy(window.m_Renderer, aManager.GetTexture("light"), nullptr, &spot2);
+
 		SDL_SetRenderTarget(window.m_Renderer, NULL);
 		SDL_RenderClear(window.m_Renderer);
-		SDL_RenderCopy(window.m_Renderer, aManager.GetTexture("goblin"), nullptr, &player);
-		SDL_RenderCopy(window.m_Renderer, aManager.GetTexture("goblin"), nullptr, &wall);
-		SDL_RenderCopy(window.m_Renderer, rend_shadow, nullptr, nullptr);
+
+		SDL_RenderCopy(window.m_Renderer, aManager.GetTexture("room"), nullptr, nullptr);
+		spot1 = { static_cast<int>(trans.transform.position.x), static_cast<int>(trans.transform.position.y), 64, 64 };
+		SDL_RenderCopy(window.m_Renderer, aManager.GetTexture("goblin"), nullptr, &spot1);
+		renderSystem->Update();
+		SDL_RenderCopy(window.m_Renderer, lightLayer, nullptr, nullptr);
 
 		window.Update();
 	}

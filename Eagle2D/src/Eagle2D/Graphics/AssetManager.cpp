@@ -86,4 +86,32 @@ namespace Eagle
 	{
 		return m_Fonts[name];
 	}
+
+	void AssetManager::CreateLight(std::string name, SDL_Colour tint)
+	{
+		std::shared_ptr<Light> light = std::make_shared<Light>();
+		light->CreateLight(*m_Window, tint);
+		m_Lights.insert({ name, std::move(light) });
+	}
+
+	void AssetManager::DeleteLight(std::string name)
+	{
+		m_Lights.erase(name);
+	}
+
+	void AssetManager::DrawLight(std::string name, std::string texture, Vector2f origin, float radius)
+	{
+		SDL_SetRenderDrawColor(m_Window->m_Renderer, 0, 0, 0, 255);
+		SDL_SetRenderTarget(m_Window->m_Renderer, m_Lights[name]->GetTexture());
+		SDL_RenderClear(m_Window->m_Renderer);
+
+		SDL_Rect dst = { origin.x - radius, origin.y - radius, radius * 2, radius * 2 };
+
+		SDL_RenderCopy(m_Window->m_Renderer, GetTexture(texture), nullptr, &dst);
+	}
+
+	std::shared_ptr<Light> AssetManager::GetLight(std::string name)
+	{
+		return m_Lights[name];
+	}
 }

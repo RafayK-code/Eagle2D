@@ -1,25 +1,27 @@
 #pragma once
 #include "Core.h"
 #include "Mathematics.h"
-#include "Window.h"
+#include <unordered_set>
 
 namespace Eagle
 {
+	class Window;
+
 	class EAGLE_API Light
 	{
 	public:
 		Light();
 		~Light();
 
-		void Init(SDL_Texture* shadowTexture, SDL_Colour shadowColour)
-
-		void CreateLight(Window* window, Vector2f position, int brightness);
+		void CreateLight(Window& window, SDL_Colour colour);
 		void DestroyLight();
+
+		SDL_Texture* GetTexture();
 
 	private:
 		Vector2f m_Position;
 		int m_Brightness;
 
-		Window* window;
+		SDL_Texture* m_RendLight;
 	};
 }
