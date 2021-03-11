@@ -70,6 +70,7 @@ void Eagle::EventScript(SDL_Event event)
 
 int main(int agrc, char** argv)
 {
+	//Testing Framework
 	Eagle::Log::Init("APP");
 
 	EG_ERROR("Welcome to test");
