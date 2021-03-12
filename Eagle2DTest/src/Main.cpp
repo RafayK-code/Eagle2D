@@ -196,6 +196,7 @@ int main(int agrc, char** argv)
 		lightingSystem->Clear();
 
 		window.Update();
+		//yuhb
 	}
 
 	return 0;
