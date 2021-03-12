@@ -172,6 +172,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Eagle2D\ECS\LightingSystem.cpp" />
     <ClCompile Include="src\Eagle2D\ECS\PhysicsSystem.cpp" />
     <ClCompile Include="src\Eagle2D\ECS\RenderSystem.cpp" />
     <ClCompile Include="src\Eagle2D\egpch.cpp">
@@ -183,7 +184,6 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">egpch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\Eagle2D\Graphics\AssetManager.cpp" />
-    <ClCompile Include="src\Eagle2D\Graphics\Light.cpp" />
     <ClCompile Include="src\Eagle2D\Logging\Log.cpp" />
     <ClCompile Include="src\Eagle2D\Graphics\Window.cpp" />
   </ItemGroup>
@@ -191,6 +191,8 @@
     <ClInclude Include="src\Eagle2D\Core.h" />
     <ClInclude Include="src\Eagle2D\Eagle2D.h" />
     <ClInclude Include="src\Eagle2D\ECS\ECS.h" />
+    <ClInclude Include="src\Eagle2D\ECS\Light.h" />
+    <ClInclude Include="src\Eagle2D\ECS\LightingSystem.h" />
     <ClInclude Include="src\Eagle2D\ECS\PhysicsSystem.h" />
     <ClInclude Include="src\Eagle2D\ECS\RenderSystem.h" />
     <ClInclude Include="src\Eagle2D\ECS\RigidBody.h" />
@@ -199,7 +201,6 @@
     <ClInclude Include="src\Eagle2D\egpch.h" />
     <ClInclude Include="src\Eagle2D\EventHandler.h" />
     <ClInclude Include="src\Eagle2D\Graphics\AssetManager.h" />
-    <ClInclude Include="src\Eagle2D\Graphics\Light.h" />
     <ClInclude Include="src\Eagle2D\Graphics\Window.h" />
     <ClInclude Include="src\Eagle2D\Logging\Logger.h" />
     <ClInclude Include="src\Eagle2D\Mathematics.h" />

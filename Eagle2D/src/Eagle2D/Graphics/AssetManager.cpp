@@ -2,6 +2,10 @@
 #include "AssetManager.h"
 #include "Window.h"
 #include <SDL_image.h>
+#include "ECS/ECS.h"
+
+#include "ECS/Sprite.h"
+#include "ECS/Transform.h"
 
 namespace Eagle
 {
@@ -27,8 +31,36 @@ namespace Eagle
 	void AssetManager::Init(Window* window)
 	{
 		m_Window = window;
-
 		EG_CORE_INFO("Asset Manager initialized.");
+	}
+
+	void AssetManager::SetLayer(std::string texture, std::uint8_t layer)
+	{
+		m_Layers.insert({ layer, texture });
+	}
+
+	void AssetManager::UpdateLayers(std::unordered_set<ECS::EntityID>& entities, ECS::Manager& man)
+	{
+		std::unordered_set<ECS::EntityID> set;
+
+		for (auto const& layer : m_Layers)
+		{
+			for (const ECS::EntityID entity : entities)
+			{
+				Sprite& sprite = man.GetComponent<Sprite>(entity);
+
+				if (sprite.id == layer.second)
+				{
+					set.insert(entity);
+				}
+			}
+		}
+
+		entities = set;
+	}
+
+	void AssetManager::Update()
+	{
 	}
 
 	void AssetManager::AddTexture(const char* file, std::string name)
@@ -40,7 +72,7 @@ namespace Eagle
 			EG_CORE_WARN(file, " was not found. Image could not be loaded.");
 		}
 
-		SDL_Texture* tex = SDL_CreateTextureFromSurface(m_Window->m_Renderer, temp);
+		SDL_Texture* tex = SDL_CreateTextureFromSurface(*m_Window->GetRenderer(), temp);
 		m_Textures.insert({ name, tex });
 
 		SDL_FreeSurface(temp);
@@ -55,7 +87,7 @@ namespace Eagle
 
 	void AssetManager::DrawTexture(std::string name, SDL_Rect* src, SDL_Rect* dst, float angle, SDL_Point* point, SDL_RendererFlip flip)
 	{
-		SDL_RenderCopyEx(m_Window->m_Renderer, m_Textures[name], src, dst, angle, point, flip);
+		SDL_RenderCopyEx(*m_Window->GetRenderer(), m_Textures[name], src, dst, angle, point, flip);
 	}
 
 	SDL_Texture* AssetManager::GetTexture(std::string name)
@@ -87,31 +119,15 @@ namespace Eagle
 		return m_Fonts[name];
 	}
 
-	void AssetManager::CreateLight(std::string name, SDL_Colour tint)
+	void AssetManager::AddBlankTexture(std::string name)
 	{
-		std::shared_ptr<Light> light = std::make_shared<Light>();
-		light->CreateLight(*m_Window, tint);
-		m_Lights.insert({ name, std::move(light) });
-	}
+		SDL_Texture* blankTex = SDL_CreateTexture(*m_Window->GetRenderer(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
 
-	void AssetManager::DeleteLight(std::string name)
-	{
-		m_Lights.erase(name);
-	}
+		if (blankTex == nullptr)
+		{
+			EG_CORE_ERROR("Blank texture could not be created for an unknown reason.");
+		}
 
-	void AssetManager::DrawLight(std::string name, std::string texture, Vector2f origin, float radius)
-	{
-		SDL_SetRenderDrawColor(m_Window->m_Renderer, 0, 0, 0, 255);
-		SDL_SetRenderTarget(m_Window->m_Renderer, m_Lights[name]->GetTexture());
-		SDL_RenderClear(m_Window->m_Renderer);
-
-		SDL_Rect dst = { origin.x - radius, origin.y - radius, radius * 2, radius * 2 };
-
-		SDL_RenderCopy(m_Window->m_Renderer, GetTexture(texture), nullptr, &dst);
-	}
-
-	std::shared_ptr<Light> AssetManager::GetLight(std::string name)
-	{
-		return m_Lights[name];
+		m_Textures.insert({ name, blankTex });
 	}
 }

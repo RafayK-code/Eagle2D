@@ -116,4 +116,9 @@ namespace Eagle
 	{
 		SDL_SetWindowFullscreen(m_Window, enabled ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 	}
+
+	SDL_Renderer** Window::GetRenderer()
+	{
+		return (&m_Renderer);
+	}
 }
