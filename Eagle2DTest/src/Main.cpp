@@ -82,6 +82,7 @@ int main(int agrc, char** argv)
 	manager.Init();
 
 	Eagle::EventHandler handler;
+	//
 
 	{
 		Eagle::ECS::Signature signature;
