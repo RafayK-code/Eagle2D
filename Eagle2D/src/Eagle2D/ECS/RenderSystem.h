@@ -1,24 +1,26 @@
 #pragma once
 #include "ECS.h"
+#include "Graphics/AssetManager.h"
 
 namespace Eagle
 {
-	class AssetManager;
 	//Pre defined system
-	//Runs through all entities that have a sprite and transform component
-	//Updates their destination rectangle and draws it onto the screen;
+	//Renders all entities
+	//Renders according to layer level
 	class EAGLE_API RenderSystem : public ECS::System
 	{
 	public:
 		RenderSystem(ECS::Manager* manager);
 		~RenderSystem();
 
-		void Init(AssetManager* aManager);
-
+		void Init(AssetManager* assetManager);
 		void Update();
+
+		void UpdateLayers();
 
 	private:
 		ECS::Manager* m_Manager;
+
 		AssetManager* m_aManager;
 	};
 }

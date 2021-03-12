@@ -1,11 +1,8 @@
 #include "egpch.h"
 #include "RenderSystem.h"
-#include <SDL.h>
-#include "Graphics/AssetManager.h"
 
-#include "Sprite.h"
 #include "Transform.h"
-#include "Graphics/Window.h"
+#include "Sprite.h"
 
 namespace Eagle
 {
@@ -20,9 +17,14 @@ namespace Eagle
 		EG_CORE_WARN("Render system destroyed.");
 	}
 
-	void RenderSystem::Init(AssetManager* aMan)
+	void RenderSystem::Init(AssetManager* aManager)
 	{
-		m_aManager = aMan;
+		m_aManager = aManager;
+	}
+
+	void RenderSystem::UpdateLayers()
+	{
+		m_aManager->UpdateLayers(m_Entities, *m_Manager);
 	}
 
 	void RenderSystem::Update()
