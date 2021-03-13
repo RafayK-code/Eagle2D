@@ -22,10 +22,6 @@ namespace Eagle
 		~AssetManager();
 
 		void Init(Window* window);
-		void Update();
-
-		void SetLayer(std::string texture, std::uint8_t layer);
-		void UpdateLayers(std::unordered_set<ECS::EntityID>& entities, ECS::Manager& manager);
 
 		void AddTexture(const char* file, std::string name);
 		void DeleteTexture(std::string name);
@@ -41,8 +37,6 @@ namespace Eagle
 	private:
 		std::unordered_map<std::string, SDL_Texture*> m_Textures;
 		std::unordered_map<std::string, TTF_Font*> m_Fonts;
-
-		std::map<std::uint8_t, std::string> m_Layers;
 
 		Window* m_Window;
 	};

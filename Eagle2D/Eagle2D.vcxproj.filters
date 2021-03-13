@@ -36,6 +36,12 @@
     <ClCompile Include="src\Eagle2D\ECS\LightingSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Eagle2D\Utility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Eagle2D\ECS\AnimationSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Eagle2D\Graphics\Window.h">
@@ -87,6 +93,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Eagle2D\ECS\LightingSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Eagle2D\Utility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Eagle2D\ECS\Animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Eagle2D\ECS\AnimationSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

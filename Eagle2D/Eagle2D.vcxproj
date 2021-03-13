@@ -172,6 +172,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Eagle2D\ECS\AnimationSystem.cpp" />
     <ClCompile Include="src\Eagle2D\ECS\LightingSystem.cpp" />
     <ClCompile Include="src\Eagle2D\ECS\PhysicsSystem.cpp" />
     <ClCompile Include="src\Eagle2D\ECS\RenderSystem.cpp" />
@@ -186,10 +187,13 @@
     <ClCompile Include="src\Eagle2D\Graphics\AssetManager.cpp" />
     <ClCompile Include="src\Eagle2D\Logging\Log.cpp" />
     <ClCompile Include="src\Eagle2D\Graphics\Window.cpp" />
+    <ClCompile Include="src\Eagle2D\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Eagle2D\Core.h" />
     <ClInclude Include="src\Eagle2D\Eagle2D.h" />
+    <ClInclude Include="src\Eagle2D\ECS\Animation.h" />
+    <ClInclude Include="src\Eagle2D\ECS\AnimationSystem.h" />
     <ClInclude Include="src\Eagle2D\ECS\ECS.h" />
     <ClInclude Include="src\Eagle2D\ECS\Light.h" />
     <ClInclude Include="src\Eagle2D\ECS\LightingSystem.h" />
@@ -205,6 +209,7 @@
     <ClInclude Include="src\Eagle2D\Logging\Logger.h" />
     <ClInclude Include="src\Eagle2D\Mathematics.h" />
     <ClInclude Include="src\Eagle2D\Logging\Log.h" />
+    <ClInclude Include="src\Eagle2D\Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

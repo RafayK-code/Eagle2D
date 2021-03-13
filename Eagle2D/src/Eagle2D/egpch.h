@@ -13,7 +13,9 @@
 #include <array>
 #include <bitset>
 #include <queue>
+#include <set>
 
 #include <SDL.h>
 
 #include "Logging/Log.h"
+#include "Utility.h"

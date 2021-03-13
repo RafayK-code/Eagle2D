@@ -34,35 +34,6 @@ namespace Eagle
 		EG_CORE_INFO("Asset Manager initialized.");
 	}
 
-	void AssetManager::SetLayer(std::string texture, std::uint8_t layer)
-	{
-		m_Layers.insert({ layer, texture });
-	}
-
-	void AssetManager::UpdateLayers(std::unordered_set<ECS::EntityID>& entities, ECS::Manager& man)
-	{
-		std::unordered_set<ECS::EntityID> set;
-
-		for (auto const& layer : m_Layers)
-		{
-			for (const ECS::EntityID entity : entities)
-			{
-				Sprite& sprite = man.GetComponent<Sprite>(entity);
-
-				if (sprite.id == layer.second)
-				{
-					set.insert(entity);
-				}
-			}
-		}
-
-		entities = set;
-	}
-
-	void AssetManager::Update()
-	{
-	}
-
 	void AssetManager::AddTexture(const char* file, std::string name)
 	{
 		SDL_Surface* temp = IMG_Load(file);

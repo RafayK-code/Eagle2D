@@ -14,7 +14,7 @@ namespace Eagle
 		using ComponentType = std::uint8_t;
 
 		//constants
-		constexpr EntityID MAX_ENTITIES = 5000;
+		constexpr EntityID MAX_ENTITIES = 10000;
 		constexpr ComponentType MAX_COMPONENTS = 32;
 
 		//signature AKA component bitset
