@@ -75,6 +75,7 @@ int main(int agrc, char** argv)
 	Eagle::Log::Init("APP");
 
 	EG_ERROR("Welcome to test");
+	//
 
 	window.Init("App", 1280, 720, SDL_WINDOW_OPENGL, SDL_RENDERER_ACCELERATED);
 	window.SetFrameRate(60);
