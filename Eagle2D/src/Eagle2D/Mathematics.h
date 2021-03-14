@@ -41,6 +41,11 @@ namespace Eagle
 			return Vector2f(x / sc, y / sc);
 		}
 
+		Vector2f operator*(float sc)
+		{
+			return Vector2f(x * sc, y * sc);
+		}
+
 		Vector2f& operator+=(Vector2f const& vec)
 		{
 			this->x += vec.x;

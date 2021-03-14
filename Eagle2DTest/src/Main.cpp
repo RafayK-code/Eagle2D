@@ -36,16 +36,16 @@ void Eagle::EventScript(SDL_Event event)
 		switch (event.key.keysym.sym)
 		{
 		case SDLK_w:
-			rb.velocity.y = -3.0f;
+			rb.velocity.y = -100.0f;
 			break;
 		case SDLK_s:
-			rb.velocity.y = 3.0f;
+			rb.velocity.y = 100.0f;
 			break;
 		case SDLK_a:
-			rb.velocity.x = -3.0f;
+			rb.velocity.x = -100.0f;
 			break;
 		case SDLK_d:
-			rb.velocity.x = 3.0f;
+			rb.velocity.x = 100.0f;
 			break;
 		}
 	}
@@ -75,7 +75,6 @@ int main(int agrc, char** argv)
 	Eagle::Log::Init("APP");
 
 	EG_ERROR("Welcome to test");
-	//
 
 	window.Init("App", 1280, 720, SDL_WINDOW_OPENGL, SDL_RENDERER_ACCELERATED);
 	window.SetFrameRate(60);
@@ -138,24 +137,27 @@ int main(int agrc, char** argv)
 	aManager.AddTexture("assets/light.png", "light");
 	aManager.AddTexture("assets/Full_Room_1.png", "room");
 
-	//aManager.SetLayer("room", 0);
-	//aManager.SetLayer("goblin", 1);
-
-	physicsSystem->Init();
+	physicsSystem->Init(&window);
 
 	renderSystem->Init(&aManager);
 	renderSystem->UpdateLayers();
 
 	lightingSystem->Init(&window, &aManager);
 
+	Uint32 elapsed = SDL_GetTicks();
+	Uint32 lastFrame = 0;
+
 	while (window.IsOpen())
 	{
+		elapsed = SDL_GetTicks();
+		window.dt = (elapsed - lastFrame) / 1000.0f;
 		handler.HandleEvents();
 		physicsSystem->Update();
 		lightingSystem->Update(SDL_Color{ 0, 0, 0, 255 });
 		renderSystem->Update();
 		lightingSystem->Clear();
 		window.Update();
+		lastFrame = elapsed;
 	}
 
 	return 0;

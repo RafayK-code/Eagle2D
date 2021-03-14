@@ -27,6 +27,8 @@ namespace Eagle
 
 		void FullScreen(bool enabled);
 
+		float dt;
+
 		SDL_Renderer** GetRenderer();
 
 	private:

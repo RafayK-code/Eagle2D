@@ -69,6 +69,7 @@ namespace Eagle
 	{
 		SDL_RenderPresent(m_Renderer);
 		int frameTime = SDL_GetTicks() - m_FrameStart;
+		//dt = (frameTime / 1000.0f) * m_FrameRate;
 
 		if (m_FrameRate != 0)
 		{

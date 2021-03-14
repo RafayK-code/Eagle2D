@@ -1,5 +1,6 @@
 #pragma once
 #include "ECS.h"
+#include "Graphics/Window.h"
 
 namespace Eagle
 {
@@ -12,11 +13,12 @@ namespace Eagle
 		PhysicsSystem(ECS::Manager* manager);
 		~PhysicsSystem();
 
-		void Init();
+		void Init(Window* window);
 
 		void Update();
 
 	private:
 		ECS::Manager* m_Manager;
+		Window* m_Window;
 	};
 }

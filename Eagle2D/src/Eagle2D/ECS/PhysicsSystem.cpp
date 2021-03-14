@@ -18,8 +18,10 @@ namespace Eagle
 		EG_CORE_WARN("Physics system destroyed.");
 	}
 
-	void PhysicsSystem::Init()
+	void PhysicsSystem::Init(Window* window)
 	{
+		m_Window = window;
+
 		for (const ECS::EntityID entity : m_Entities)
 		{
 			Transform& t = m_Manager->GetComponent<Transform>(entity);
@@ -39,8 +41,9 @@ namespace Eagle
 			Vector2f pos = transform.transform.position;
 			Vector2f hitbox = rb.hitbox.position;
 
-			transform.transform.position += rb.velocity;
-			rb.hitbox.position += rb.velocity;
+			//transform.transform.position += rb.velocity / ((float)m_Window->GetFrameRate() / 60.0f);
+			transform.transform.position += rb.velocity * m_Window->dt;
+			rb.hitbox.position += rb.velocity * m_Window->dt;
 			rb.velocity += rb.acceleration;
 
 			if (transform.transform.position != pos)
