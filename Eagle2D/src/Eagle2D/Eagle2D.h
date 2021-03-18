@@ -11,11 +11,6 @@
 
 #include "Mathematics.h"
 
-namespace Eagle
-{
-	void EventScript(SDL_Event event);
-}
-
 #include "EventHandler.h"
 
 #pragma warning(pop)

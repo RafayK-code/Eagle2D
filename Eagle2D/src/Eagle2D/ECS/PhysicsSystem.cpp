@@ -5,6 +5,9 @@
 #include "Transform.h"
 #include "RigidBody.h"
 
+Uint32 elapsed;
+Uint32 lastFrame;
+
 namespace Eagle
 {
 	PhysicsSystem::PhysicsSystem(ECS::Manager* man)
@@ -29,10 +32,17 @@ namespace Eagle
 
 			rb.hitbox.position += t.transform.position;
 		}
+
+		elapsed = 0;
+		lastFrame = 0;
 	}
 
 	void PhysicsSystem::Update()
 	{
+		lastFrame = elapsed;
+		elapsed = SDL_GetTicks();
+		m_Window->dt = (elapsed - lastFrame) / 1000.0f;
+
 		for (const ECS::EntityID entity : m_Entities)
 		{
 			Transform& transform = m_Manager->GetComponent<Transform>(entity);

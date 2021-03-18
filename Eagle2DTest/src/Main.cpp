@@ -21,10 +21,10 @@ std::shared_ptr<Eagle::PhysicsSystem> physicsSystem;
 std::shared_ptr<Eagle::RenderSystem> renderSystem;
 std::shared_ptr<Eagle::LightingSystem> lightingSystem;
 
-void Eagle::EventScript(SDL_Event event)
+void EventScript(SDL_Event event)
 {
-	Transform& t = manager.GetComponent<Transform>(goblin);
-	RigidBody& rb = manager.GetComponent<RigidBody>(goblin);
+	Eagle::Transform& t = manager.GetComponent<Eagle::Transform>(goblin);
+	Eagle::RigidBody& rb = manager.GetComponent<Eagle::RigidBody>(goblin);
 
 	if (event.type == SDL_QUIT)
 	{
@@ -150,8 +150,8 @@ int main(int agrc, char** argv)
 	while (window.IsOpen())
 	{
 		elapsed = SDL_GetTicks();
-		window.dt = (elapsed - lastFrame) / 1000.0f;
-		handler.HandleEvents();
+		//window.dt = (elapsed - lastFrame) / 1000.0f;
+		handler.HandleEvents(EventScript);
 		physicsSystem->Update();
 		lightingSystem->Update(SDL_Color{ 0, 0, 0, 255 });
 		renderSystem->Update();

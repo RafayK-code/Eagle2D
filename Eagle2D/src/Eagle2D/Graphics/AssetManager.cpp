@@ -43,7 +43,7 @@ namespace Eagle
 			EG_CORE_WARN(file, " was not found. Image could not be loaded.");
 		}
 
-		SDL_Texture* tex = SDL_CreateTextureFromSurface(*m_Window->GetRenderer(), temp);
+		SDL_Texture* tex = SDL_CreateTextureFromSurface(m_Window->m_Renderer, temp);
 		m_Textures.insert({ name, tex });
 
 		SDL_FreeSurface(temp);
@@ -58,7 +58,7 @@ namespace Eagle
 
 	void AssetManager::DrawTexture(std::string name, SDL_Rect* src, SDL_Rect* dst, float angle, SDL_Point* point, SDL_RendererFlip flip)
 	{
-		SDL_RenderCopyEx(*m_Window->GetRenderer(), m_Textures[name], src, dst, angle, point, flip);
+		SDL_RenderCopyEx(m_Window->m_Renderer, m_Textures[name], src, dst, angle, point, flip);
 	}
 
 	SDL_Texture* AssetManager::GetTexture(std::string name)
@@ -92,7 +92,7 @@ namespace Eagle
 
 	void AssetManager::AddBlankTexture(std::string name)
 	{
-		SDL_Texture* blankTex = SDL_CreateTexture(*m_Window->GetRenderer(), SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
+		SDL_Texture* blankTex = SDL_CreateTexture(m_Window->m_Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
 
 		if (blankTex == nullptr)
 		{
