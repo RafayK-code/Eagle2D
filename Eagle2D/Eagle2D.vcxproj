@@ -174,6 +174,7 @@
   <ItemGroup>
     <ClCompile Include="src\Eagle2D\ECS\AnimationSystem.cpp" />
     <ClCompile Include="src\Eagle2D\ECS\LightingSystem.cpp" />
+    <ClCompile Include="src\Eagle2D\ECS\ParticleSystem.cpp" />
     <ClCompile Include="src\Eagle2D\ECS\PhysicsSystem.cpp" />
     <ClCompile Include="src\Eagle2D\ECS\RenderSystem.cpp" />
     <ClCompile Include="src\Eagle2D\egpch.cpp">
@@ -197,6 +198,8 @@
     <ClInclude Include="src\Eagle2D\ECS\ECS.h" />
     <ClInclude Include="src\Eagle2D\ECS\Light.h" />
     <ClInclude Include="src\Eagle2D\ECS\LightingSystem.h" />
+    <ClInclude Include="src\Eagle2D\ECS\Particle.h" />
+    <ClInclude Include="src\Eagle2D\ECS\ParticleSystem.h" />
     <ClInclude Include="src\Eagle2D\ECS\PhysicsSystem.h" />
     <ClInclude Include="src\Eagle2D\ECS\RenderSystem.h" />
     <ClInclude Include="src\Eagle2D\ECS\RigidBody.h" />

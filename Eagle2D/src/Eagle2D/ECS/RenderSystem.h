@@ -14,13 +14,14 @@ namespace Eagle
 		~RenderSystem();
 
 		void Init(AssetManager* assetManager);
+
 		void Update();
 
 		void UpdateLayers();
 
 	private:
-		ECS::Manager* m_Manager;
+		ECS::Manager* _Manager;
 
-		AssetManager* m_aManager;
+		AssetManager* _aManager;
 	};
 }

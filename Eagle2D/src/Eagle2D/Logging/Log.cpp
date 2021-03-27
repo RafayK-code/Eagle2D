@@ -3,22 +3,22 @@
 
 namespace Eagle
 {
-	std::shared_ptr<Logger> Log::m_CoreLogger;
-	std::shared_ptr<Logger> Log::m_ClientLogger;
+	std::shared_ptr<Logger> Log::_CoreLogger;
+	std::shared_ptr<Logger> Log::_ClientLogger;
 
-	void Log::Init(std::string name)
+	void Log::Init(const char* name)
 	{
-		m_CoreLogger = std::make_shared<Logger>("EAGLE");
-		m_ClientLogger = std::make_shared<Logger>(name);
+		_CoreLogger = std::make_shared<Logger>("EAGLE");
+		_ClientLogger = std::make_shared<Logger>(name);
 	}
 
 	std::shared_ptr<Logger>& Log::GetCoreLogger()
 	{
-		return m_CoreLogger;
+		return _CoreLogger;
 	}
 
 	std::shared_ptr<Logger>& Log::GetClientLogger()
 	{
-		return m_ClientLogger;
+		return _ClientLogger;
 	}
 }

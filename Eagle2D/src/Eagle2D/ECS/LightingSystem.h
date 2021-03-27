@@ -16,10 +16,10 @@ namespace Eagle
 		void Clear();
 
 	private:
-		ECS::Manager* m_Manager;
-		AssetManager* m_aManager;
-		Window* m_Window;
+		ECS::Manager* _Manager;
+		AssetManager* _aManager;
+		Window* _Window;
 
-		std::string texLayer;
+		std::string _TexLayer;
 	};
 }

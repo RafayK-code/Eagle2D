@@ -50,28 +50,28 @@ namespace Eagle
 			void AddComponent(TArgs&&... mArgs)
 			{
 				//create a new object and have the array point to the same block of memory for it
-				m_ComponentArray[GetComponentTypeID<T>()] = std::make_unique<T>(std::forward<TArgs>(mArgs)...);
-				m_Signature[GetComponentTypeID<T>()] = true;
+				_ComponentArray[GetComponentTypeID<T>()] = std::make_unique<T>(std::forward<TArgs>(mArgs)...);
+				_Signature[GetComponentTypeID<T>()] = true;
 			}
 
 			template <typename T>
 			T& GetComponent()
 			{
 				//get the data for each specific component requested
-				return *static_cast<T*>(m_ComponentArray[GetComponentTypeID<T>()].get());
+				return *static_cast<T*>(_ComponentArray[GetComponentTypeID<T>()].get());
 			}
 
 			Signature GetEntitySignature() const
 			{
 				//return the bitset of our entity
-				return m_Signature;
+				return _Signature;
 			}
 
 		private:
 			//array containing each component
-			std::array<std::unique_ptr<Component>, MAX_COMPONENTS> m_ComponentArray{};
+			std::array<std::unique_ptr<Component>, MAX_COMPONENTS> _ComponentArray{};
 			//signature of the entity (what components it has/does not have
-			Signature m_Signature;
+			Signature _Signature;
 		};
 
 		//base system class, for other systems that are user-defined to inherit
@@ -79,7 +79,7 @@ namespace Eagle
 		{
 		public:
 			//set of all the entities, keep tracked of using the entityID
-			std::unordered_set<EntityID> m_Entities;
+			std::unordered_set<EntityID> _Entities;
 		};
 
 		//Manager class
@@ -98,7 +98,7 @@ namespace Eagle
 				//fill our available entities queue
 				for (EntityID entity = 0; entity < MAX_ENTITIES; entity++)
 				{
-					m_AvailableEntities.push(entity);
+					_AvailableEntities.push(entity);
 				}
 
 				EG_CORE_INFO("ECS Manager initialized.");
@@ -108,13 +108,13 @@ namespace Eagle
 			EntityID CreateEntity()
 			{
 				//get an ID from our queue
-				EntityID id = m_AvailableEntities.front();
+				EntityID id = _AvailableEntities.front();
 				//remove that id from our queue
-				m_AvailableEntities.pop();
+				_AvailableEntities.pop();
 
 				//create an instance of an entity and insert it into our map
 				std::unique_ptr<Entity> entity = std::make_unique<Entity>();
-				m_Entities.insert({ id, std::move(entity) });
+				_Entities.insert({ id, std::move(entity) });
 
 				//return the ID to the user
 				return id;
@@ -124,16 +124,16 @@ namespace Eagle
 			void DestroyEntity(EntityID entity)
 			{
 				//erase the entity from our map
-				m_Entities.erase(entity);
+				_Entities.erase(entity);
 
 				//go through each system and remove the entity
-				for (auto const& pair : m_Systems)
+				for (auto const& pair : _Systems)
 				{
-					pair.second->m_Entities.erase(entity);
+					pair.second->_Entities.erase(entity);
 				}
 
 				//push the ID back into the queue
-				m_AvailableEntities.push(entity);
+				_AvailableEntities.push(entity);
 			}
 
 			//Adds a type of component to an entity
@@ -141,21 +141,21 @@ namespace Eagle
 			void AddComponent(EntityID entity, TArgs&&... mArgs)
 			{
 				//calls the add component function for the entity
-				m_Entities[entity]->AddComponent<T>(std::forward<TArgs>(mArgs)...);
+				_Entities[entity]->AddComponent<T>(std::forward<TArgs>(mArgs)...);
 
-				Signature signature = m_Entities[entity]->GetEntitySignature();
+				Signature signature = _Entities[entity]->GetEntitySignature();
 
 				//go through our systems, and if the entity doesnt have all the components the system requires, the system will ignore it
-				for (auto const& pair : m_Systems)
+				for (auto const& pair : _Systems)
 				{
 					if ((signature & pair.first) == pair.first)
 					{
-						pair.second->m_Entities.insert(entity);
+						pair.second->_Entities.insert(entity);
 					}
 
 					else
 					{
-						pair.second->m_Entities.erase(entity);
+						pair.second->_Entities.erase(entity);
 					}
 				}
 			}
@@ -165,7 +165,7 @@ namespace Eagle
 			T& GetComponent(EntityID entity)
 			{
 				//look up the entity and call the get component function
-				return m_Entities[entity]->GetComponent<T>();
+				return _Entities[entity]->GetComponent<T>();
 			}
 
 			//Gets a component type (used to register a signature to a system mainly)
@@ -182,7 +182,7 @@ namespace Eagle
 				//create a system of type T and initialize it
 				std::shared_ptr<T> system = std::make_shared<T>(this);
 				//insert this into our map along with the signature
-				m_Systems.insert({ signature, system });
+				_Systems.insert({ signature, system });
 
 				//return the system back to user
 				return system;
@@ -190,12 +190,12 @@ namespace Eagle
 
 		private:
 			//map of signatures to shared pointers of systems. This map is used to associate a signature with each system
-			std::unordered_map<Signature, std::shared_ptr<System>> m_Systems;
+			std::unordered_map<Signature, std::shared_ptr<System>> _Systems;
 
 			//queue of available entites (FIFO)
-			std::queue<EntityID> m_AvailableEntities;
+			std::queue<EntityID> _AvailableEntities;
 			//map of entity IDs to unique pointers of entites. Using this map, entities can be oeprated on givin an entity key from user
-			std::unordered_map<EntityID, std::unique_ptr<Entity>> m_Entities;
+			std::unordered_map<EntityID, std::unique_ptr<Entity>> _Entities;
 		};
 	}
 }

@@ -29,20 +29,22 @@ namespace Eagle
 
 		SDL_Renderer** GetRenderer();
 
-	private:
-		SDL_Window* m_Window;
-		SDL_Renderer* m_Renderer;
-
-		bool m_IsRunning;
-
-		int m_FrameRate;
-		bool m_VSync;
-
-		Uint32 m_FrameStart;
-
 		float dt;
+
+	private:
+		SDL_Window* _Window;
+		SDL_Renderer* _Renderer;
+
+		bool _IsRunning;
+
+		int _FrameRate;
+		bool _VSync;
+
+		Uint32 _FrameStart;
 
 		friend class PhysicsSystem;
 		friend class AssetManager;
+		friend class LightingSystem;
+		friend class ParticleSystem;
 	};
 }

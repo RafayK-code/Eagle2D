@@ -10,17 +10,18 @@
 namespace Eagle
 {
 	AssetManager::AssetManager()
+		: _Window(nullptr)
 	{
 	}
 
 	AssetManager::~AssetManager()
 	{
-		for (auto const& pair : m_Textures)
+		for (auto const& pair : _Textures)
 		{
 			SDL_DestroyTexture(pair.second);
 		}
 
-		for (auto const& pair : m_Fonts)
+		for (auto const& pair : _Fonts)
 		{
 			TTF_CloseFont(pair.second);
 		}
@@ -30,7 +31,7 @@ namespace Eagle
 
 	void AssetManager::Init(Window* window)
 	{
-		m_Window = window;
+		_Window = window;
 		EG_CORE_INFO("Asset Manager initialized.");
 	}
 
@@ -43,27 +44,27 @@ namespace Eagle
 			EG_CORE_WARN(file, " was not found. Image could not be loaded.");
 		}
 
-		SDL_Texture* tex = SDL_CreateTextureFromSurface(m_Window->m_Renderer, temp);
-		m_Textures.insert({ name, tex });
+		SDL_Texture* tex = SDL_CreateTextureFromSurface(_Window->_Renderer, temp);
+		_Textures.insert({ name, tex });
 
 		SDL_FreeSurface(temp);
 	}
 
 	void AssetManager::DeleteTexture(std::string name)
 	{
-		SDL_Texture* tex = m_Textures[name];
-		m_Textures.erase(name);
+		SDL_Texture* tex = _Textures[name];
+		_Textures.erase(name);
 		SDL_DestroyTexture(tex);
 	}
 
 	void AssetManager::DrawTexture(std::string name, SDL_Rect* src, SDL_Rect* dst, float angle, SDL_Point* point, SDL_RendererFlip flip)
 	{
-		SDL_RenderCopyEx(m_Window->m_Renderer, m_Textures[name], src, dst, angle, point, flip);
+		SDL_RenderCopyEx(_Window->_Renderer, _Textures[name], src, dst, angle, point, flip);
 	}
 
 	SDL_Texture* AssetManager::GetTexture(std::string name)
 	{
-		return m_Textures[name];
+		return _Textures[name];
 	}
 
 	void AssetManager::AddFont(const char* file, std::string name, int fontSize)
@@ -75,30 +76,30 @@ namespace Eagle
 			EG_CORE_WARN(file, " was not found. TTF could not be loaded.");
 		}
 
-		m_Fonts.insert({ name, font });
+		_Fonts.insert({ name, font });
 	}
 
 	void AssetManager::DeleteFont(std::string name)
 	{
-		TTF_Font* font = m_Fonts[name];
-		m_Fonts.erase(name);
+		TTF_Font* font = _Fonts[name];
+		_Fonts.erase(name);
 		TTF_CloseFont(font);
 	}
 
 	TTF_Font* AssetManager::GetFont(std::string name)
 	{
-		return m_Fonts[name];
+		return _Fonts[name];
 	}
 
 	void AssetManager::AddBlankTexture(std::string name)
 	{
-		SDL_Texture* blankTex = SDL_CreateTexture(m_Window->m_Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
+		SDL_Texture* blankTex = SDL_CreateTexture(_Window->_Renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1280, 720);
 
 		if (blankTex == nullptr)
 		{
 			EG_CORE_ERROR("Blank texture could not be created for an unknown reason.");
 		}
 
-		m_Textures.insert({ name, blankTex });
+		_Textures.insert({ name, blankTex });
 	}
 }

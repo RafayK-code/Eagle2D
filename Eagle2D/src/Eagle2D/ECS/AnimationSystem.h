@@ -17,6 +17,6 @@ namespace Eagle
 		void Update();
 
 	private:
-		ECS::Manager* m_Manager;
+		ECS::Manager* _Manager;
 	};
 }

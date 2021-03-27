@@ -5,13 +5,13 @@
 #include "Transform.h"
 #include "RigidBody.h"
 
-Uint32 elapsed;
-Uint32 lastFrame;
+static Uint32 elapsed;
+static Uint32 lastFrame;
 
 namespace Eagle
 {
 	PhysicsSystem::PhysicsSystem(ECS::Manager* man)
-		: m_Manager(man)
+		: _Manager(man), _Window(nullptr)
 	{
 		EG_CORE_INFO("Physics system created.");
 	}
@@ -23,12 +23,12 @@ namespace Eagle
 
 	void PhysicsSystem::Init(Window* window)
 	{
-		m_Window = window;
+		_Window = window;
 
-		for (const ECS::EntityID entity : m_Entities)
+		for (const ECS::EntityID entity : _Entities)
 		{
-			Transform& t = m_Manager->GetComponent<Transform>(entity);
-			RigidBody& rb = m_Manager->GetComponent<RigidBody>(entity);
+			Transform& t = _Manager->GetComponent<Transform>(entity);
+			RigidBody& rb = _Manager->GetComponent<RigidBody>(entity);
 
 			rb.hitbox.position += t.transform.position;
 		}
@@ -39,42 +39,57 @@ namespace Eagle
 
 	void PhysicsSystem::Update()
 	{
-		lastFrame = elapsed;
-		elapsed = SDL_GetTicks();
-		m_Window->dt = (elapsed - lastFrame) / 1000.0f;
-
-		for (const ECS::EntityID entity : m_Entities)
+		while (_Window->IsOpen())
 		{
-			Transform& transform = m_Manager->GetComponent<Transform>(entity);
-			RigidBody& rb = m_Manager->GetComponent<RigidBody>(entity);
+			lastFrame = elapsed;
+			elapsed = SDL_GetTicks();
+			_Window->dt = (elapsed - lastFrame) / 1000.0f;
 
-			Vector2f pos = transform.transform.position;
-			Vector2f hitbox = rb.hitbox.position;
-
-			//transform.transform.position += rb.velocity / ((float)m_Window->GetFrameRate() / 60.0f);
-			transform.transform.position += rb.velocity * m_Window->dt;
-			rb.hitbox.position += rb.velocity * m_Window->dt;
-			rb.velocity += rb.acceleration;
-
-			if (transform.transform.position != pos)
+			for (const ECS::EntityID entity : _Entities)
 			{
-				for (const ECS::EntityID col : m_Entities)
+				Transform& transform = _Manager->GetComponent<Transform>(entity);
+				RigidBody& rb = _Manager->GetComponent<RigidBody>(entity);
+
+				Vector2f pos = transform.transform.position;
+				Vector2f hitbox = rb.hitbox.position;
+
+				//transform.transform.position += rb.velocity / ((float)m_Window->GetFrameRate() / 60.0f);
+				transform.transform.position += rb.velocity * _Window->dt;
+				rb.hitbox.position += rb.velocity * _Window->dt;
+				rb.velocity += rb.acceleration;
+
+				if (transform.transform.position != pos)
 				{
-					if (col != entity)
+					for (const ECS::EntityID col : _Entities)
 					{
-						RigidBody& colRb = m_Manager->GetComponent<RigidBody>(col);
-						if (rb.hitbox >> colRb.hitbox)
+						if (col != entity)
 						{
-							transform.transform.position = pos;
-							rb.hitbox.position = hitbox;
+							RigidBody& colRb = _Manager->GetComponent<RigidBody>(col);
+							if (rb.hitbox >> colRb.hitbox)
+							{
+								transform.transform.position = pos;
+								rb.hitbox.position = hitbox;
 
-							EG_CORE_TRACE("Collision Detected.");
+								EG_CORE_TRACE("Collision Detected.");
 
-							break;
+								break;
+							}
 						}
 					}
 				}
 			}
+
+			int frameTime = SDL_GetTicks() - _Window->_FrameStart;
+
+			if (_Window->_FrameRate != 0)
+			{
+				if (1000 / _Window->_FrameRate > frameTime)
+				{
+					SDL_Delay(1000 / _Window->_FrameRate - frameTime);
+				}
+			}
+
+			_Window->_FrameStart = SDL_GetTicks();
 		}
 	}
 }

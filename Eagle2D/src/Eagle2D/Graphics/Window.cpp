@@ -15,8 +15,8 @@ namespace Eagle
 
 	Window::~Window()
 	{
-		SDL_DestroyRenderer(m_Renderer);
-		SDL_DestroyWindow(m_Window);
+		SDL_DestroyRenderer(_Renderer);
+		SDL_DestroyWindow(_Window);
 		SDL_Quit();
 
 		EG_CORE_WARN("Window and Renderer Destroyed.");
@@ -25,7 +25,7 @@ namespace Eagle
 
 	void Window::Init(const char* title, unsigned int width, unsigned int height, Uint32 windowFlags, Uint32 rendererFlags)
 	{
-		m_FrameRate = 0; m_VSync = false; m_FrameStart = SDL_GetTicks();
+		_FrameRate = 0; _VSync = false; _FrameStart = SDL_GetTicks();
 
 		EG_CORE_ASSERT(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS) + 1, "Could not initialize SDL.");
 
@@ -37,88 +37,88 @@ namespace Eagle
 
 		SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
-		m_Window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, windowFlags);
-		if (m_Window == nullptr)
+		_Window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, windowFlags);
+		if (_Window == nullptr)
 		{
 			EG_CORE_ASSERT(false, "Could not create Window.");
 		}
 
 		EG_CORE_INFO("Window created...");
 
-		m_Renderer = SDL_CreateRenderer(m_Window, -1, rendererFlags);
-		if (m_Renderer == nullptr)
+		_Renderer = SDL_CreateRenderer(_Window, -1, rendererFlags);
+		if (_Renderer == nullptr)
 		{
 			EG_CORE_ASSERT(false, "Could not create Renderer.");
 		}
 
 		EG_CORE_INFO("Renderer created...");
 
-		SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+		SDL_SetRenderDrawColor(_Renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 
-		m_IsRunning = true;
+		_IsRunning = true;
 		EG_CORE_INFO("Window & Renderer startup successful.");
 	}
 
 	void Window::Clear()
 	{
-		SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-		SDL_RenderClear(m_Renderer);
+		SDL_SetRenderDrawColor(_Renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+		SDL_RenderClear(_Renderer);
 	}
 
 	void Window::Update()
 	{
-		SDL_RenderPresent(m_Renderer);
-		int frameTime = SDL_GetTicks() - m_FrameStart;
+		SDL_RenderPresent(_Renderer);
+		int frameTime = SDL_GetTicks() - _FrameStart;
 
-		if (m_FrameRate != 0)
+		if (_FrameRate != 0)
 		{
-			if (1000 / m_FrameRate > frameTime)
+			if (1000 / _FrameRate > frameTime)
 			{
-				SDL_Delay(1000 / m_FrameRate - frameTime);
+				SDL_Delay(1000 / _FrameRate - frameTime);
 			}
 		}
 
-		m_FrameStart = SDL_GetTicks();
+		_FrameStart = SDL_GetTicks();
 	}
 
 	void Window::Close()
 	{
-		m_IsRunning = false;
+		_IsRunning = false;
 	}
 
 	bool Window::IsOpen() const
 	{
-		return m_IsRunning;
+		return _IsRunning;
 	}
 
 	void Window::SetFrameRate(int frameRate)
 	{
-		m_FrameRate = frameRate;
+		_FrameRate = frameRate;
 	}
 
 	int Window::GetFrameRate() const
 	{
-		return m_FrameRate;
+		return _FrameRate;
 	}
 
 	void Window::SetVSync(bool enabled)
 	{
-		m_VSync = enabled;
+		_VSync = enabled;
 		SDL_GL_SetSwapInterval(enabled);
 	}
 
 	bool Window::IsVSync() const
 	{
-		return m_VSync;
+		return _VSync;
 	}
 
 	void Window::FullScreen(bool enabled)
 	{
-		SDL_SetWindowFullscreen(m_Window, enabled ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+		SDL_SetWindowFullscreen(_Window, enabled ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
 	}
 
 	SDL_Renderer** Window::GetRenderer()
 	{
-		return (&m_Renderer);
+		return (&_Renderer);
 	}
 }

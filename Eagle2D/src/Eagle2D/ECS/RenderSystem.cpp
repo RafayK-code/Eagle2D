@@ -7,7 +7,7 @@
 namespace Eagle
 {
 	RenderSystem::RenderSystem(ECS::Manager* man)
-		: m_Manager(man)
+		: _Manager(man), _aManager(nullptr)
 	{
 		EG_CORE_INFO("Render system created.");
 	}
@@ -19,7 +19,7 @@ namespace Eagle
 
 	void RenderSystem::Init(AssetManager* aManager)
 	{
-		m_aManager = aManager;
+		_aManager = aManager;
 	}
 
 	void RenderSystem::UpdateLayers()
@@ -27,27 +27,27 @@ namespace Eagle
 		std::unordered_map<ECS::EntityID, std::uint8_t> entities;
 		std::vector<std::pair<ECS::EntityID, std::uint8_t>> A;
 
-		for (const ECS::EntityID entity : m_Entities)
+		for (const ECS::EntityID entity : _Entities)
 		{
-			Sprite& sprite = m_Manager->GetComponent<Sprite>(entity);
+			Sprite& sprite = _Manager->GetComponent<Sprite>(entity);
 			A.push_back(std::pair<ECS::EntityID, std::uint8_t>({ entity, sprite.layer }));
 		}
 
 		std::sort(A.begin(), A.end(), Compare<ECS::EntityID, std::uint8_t>);
 
-		m_Entities.clear();
+		_Entities.clear();
 		for (const auto& pair : A)
 		{
-			m_Entities.insert(pair.first);
+			_Entities.insert(pair.first);
 		}
 	}
 
 	void RenderSystem::Update()
 	{
-		for (const ECS::EntityID entity : m_Entities)
+		for (const ECS::EntityID entity : _Entities)
 		{
-			Sprite& sprite = m_Manager->GetComponent<Sprite>(entity);
-			Transform& transform = m_Manager->GetComponent<Transform>(entity);
+			Sprite& sprite = _Manager->GetComponent<Sprite>(entity);
+			Transform& transform = _Manager->GetComponent<Transform>(entity);
 
 			sprite.dst.x = static_cast<int>(transform.transform.position.x);
 			sprite.dst.y = static_cast<int>(transform.transform.position.y);
@@ -60,12 +60,12 @@ namespace Eagle
 
 			if (!(sprite.src.x == 0 && sprite.src.y == 0 && sprite.src.w == 0 && sprite.src.h == 0))
 			{
-				m_aManager->DrawTexture(sprite.id, &sprite.src, &sprite.dst, transform.rotation, &point, sprite.flip);
+				_aManager->DrawTexture(sprite.id, &sprite.src, &sprite.dst, transform.rotation, &point, sprite.flip);
 			}
 
 			else
 			{
-				m_aManager->DrawTexture(sprite.id, nullptr, &sprite.dst, transform.rotation, &point, sprite.flip);
+				_aManager->DrawTexture(sprite.id, nullptr, &sprite.dst, transform.rotation, &point, sprite.flip);
 			}
 		}
 	}

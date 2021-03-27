@@ -12,22 +12,22 @@ namespace Eagle
 	{
 	public:
 		Logger()
-			: m_Name("LOG")
+			: _Name("LOG")
 		{
-			m_Console = GetStdHandle(STD_OUTPUT_HANDLE);
+			_Console = GetStdHandle(STD_OUTPUT_HANDLE);
 		}
 
-		Logger(std::string name)
-			: m_Name(name)
+		Logger(const char* name)
+			: _Name(name)
 		{
-			m_Console = GetStdHandle(STD_OUTPUT_HANDLE);
+			_Console = GetStdHandle(STD_OUTPUT_HANDLE);
 		}
 
 		template <typename T, typename... Args>
 		void Trace(const T& msg, Args&&... m_Args)
 		{
-			SetConsoleTextAttribute(m_Console, 15);
-			std::cout << m_Name << " TRACE : " << msg;
+			SetConsoleTextAttribute(_Console, 15);
+			std::cout << _Name << " TRACE : " << msg;
 			((std::cout << std::forward<Args>(m_Args)), ...);
 			std::cout << std::endl;
 		}
@@ -35,8 +35,8 @@ namespace Eagle
 		template <typename T, typename... Args>
 		void Info(const T& msg, Args&&... m_Args)
 		{
-			SetConsoleTextAttribute(m_Console, 2);
-			std::cout << m_Name << " INFO : " << msg;
+			SetConsoleTextAttribute(_Console, 2);
+			std::cout << _Name << " INFO : " << msg;
 			((std::cout << std::forward<Args>(m_Args)), ...);
 			std::cout << std::endl;
 		}
@@ -44,8 +44,8 @@ namespace Eagle
 		template <typename T, typename... Args>
 		void Warn(const T& msg, Args&&... m_Args)
 		{
-			SetConsoleTextAttribute(m_Console, 14);
-			std::cout << m_Name << " WARN : " << msg;
+			SetConsoleTextAttribute(_Console, 14);
+			std::cout << _Name << " WARN : " << msg;
 			((std::cout << std::forward<Args>(m_Args)), ...);
 			std::cout << std::endl;
 		}
@@ -53,8 +53,8 @@ namespace Eagle
 		template <typename T, typename... Args>
 		void Error(const T& msg, Args&&... m_Args)
 		{
-			SetConsoleTextAttribute(m_Console, FOREGROUND_RED | FOREGROUND_GREEN);
-			std::cout << m_Name << " ERROR : " << msg;
+			SetConsoleTextAttribute(_Console, FOREGROUND_RED | FOREGROUND_GREEN);
+			std::cout << _Name << " ERROR : " << msg;
 			((std::cout << std::forward<Args>(m_Args)), ...);
 			std::cout << std::endl;
 		}
@@ -62,15 +62,15 @@ namespace Eagle
 		template <typename T, typename... Args>
 		void Fatal(const T& msg, Args&&... m_Args)
 		{
-			SetConsoleTextAttribute(m_Console, 4);
-			std::cout << m_Name << " FATAL : " << msg;
+			SetConsoleTextAttribute(_Console, 4);
+			std::cout << _Name << " FATAL : " << msg;
 			((std::cout << std::forward<Args>(m_Args)), ...);
 			std::cout << std::endl;
 		}
 
 	private:
-		HANDLE m_Console;
-		std::string m_Name;
+		HANDLE _Console;
+		std::string _Name;
 	};
 }
 

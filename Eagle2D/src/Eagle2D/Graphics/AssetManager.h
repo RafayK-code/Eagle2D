@@ -35,10 +35,10 @@ namespace Eagle
 		void AddBlankTexture(std::string name);
 
 	private:
-		std::unordered_map<std::string, SDL_Texture*> m_Textures;
-		std::unordered_map<std::string, TTF_Font*> m_Fonts;
+		std::unordered_map<std::string, SDL_Texture*> _Textures;
+		std::unordered_map<std::string, TTF_Font*> _Fonts;
 
-		Window* m_Window;
+		Window* _Window;
 	};
 }
 

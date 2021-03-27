@@ -11,14 +11,14 @@ namespace Eagle
 	class EAGLE_API Log
 	{
 	public:
-		static void Init(std::string name);
+		static void Init(const char* name);
 
 		static std::shared_ptr<Logger>& GetCoreLogger();
 		static std::shared_ptr<Logger>& GetClientLogger();
 
 	private:
-		static std::shared_ptr<Logger> m_CoreLogger;
-		static std::shared_ptr<Logger> m_ClientLogger;
+		static std::shared_ptr<Logger> _CoreLogger;
+		static std::shared_ptr<Logger> _ClientLogger;
 	};
 }
 

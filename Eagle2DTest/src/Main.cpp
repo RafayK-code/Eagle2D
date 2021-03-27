@@ -2,6 +2,8 @@
 #include "Eagle2D.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include <thread>
+#include <future>
 
 #include "ECS/Transform.h"
 #include "ECS/Sprite.h"
@@ -23,7 +25,6 @@ std::shared_ptr<Eagle::LightingSystem> lightingSystem;
 
 void EventScript(SDL_Event event)
 {
-	Eagle::Transform& t = manager.GetComponent<Eagle::Transform>(goblin);
 	Eagle::RigidBody& rb = manager.GetComponent<Eagle::RigidBody>(goblin);
 
 	if (event.type == SDL_QUIT)
@@ -77,11 +78,9 @@ int main(int agrc, char** argv)
 	EG_ERROR("Welcome to test");
 
 	window.Init("App", 1280, 720, SDL_WINDOW_OPENGL, SDL_RENDERER_ACCELERATED);
-	window.SetFrameRate(60);
+	window.SetFrameRate(240);
 
 	manager.Init();
-
-	Eagle::EventHandler handler;
 
 	{
 		Eagle::ECS::Signature signature;
@@ -137,6 +136,8 @@ int main(int agrc, char** argv)
 	aManager.AddTexture("assets/light.png", "light");
 	aManager.AddTexture("assets/Full_Room_1.png", "room");
 
+	//aManager.AddFont("assets/arial.ttf", "label", 18);
+
 	physicsSystem->Init(&window);
 
 	renderSystem->Init(&aManager);
@@ -147,18 +148,23 @@ int main(int agrc, char** argv)
 	Uint32 elapsed = SDL_GetTicks();
 	Uint32 lastFrame = 0;
 
+	//std::thread worker(&Eagle::PhysicsSystem::Update, physicsSystem);
+	auto f1 = std::async(&Eagle::PhysicsSystem::Update, physicsSystem);
+
 	while (window.IsOpen())
 	{
 		elapsed = SDL_GetTicks();
-		//window.dt = (elapsed - lastFrame) / 1000.0f;
-		handler.HandleEvents(EventScript);
-		physicsSystem->Update();
+		//window.dt = (SDL_GetTicks() - lastFrame) / 1000.0f;
+		Eagle::HandleEvents(EventScript);
+		//physicsSystem->Update();
 		lightingSystem->Update(SDL_Color{ 0, 0, 0, 255 });
 		renderSystem->Update();
 		lightingSystem->Clear();
 		window.Update();
 		lastFrame = elapsed;
 	}
+
+	//worker.join();
 
 	return 0;
 }
